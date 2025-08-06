@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI 질문하기</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Gemini AI 질문하기</h1>
+            <p>궁금한 것을 물어보세요!</p>
+        </header>
+
+        <main>
+            <div class="question-section">
+                <div class="input-group">
+                    <textarea 
+                        id="questionInput" 
+                        placeholder="질문을 입력하세요..."
+                        rows="4"
+                    ></textarea>
+                    <button id="askButton" type="button">질문하기</button>
+                </div>
+            </div>
+
+            <div class="response-section">
+                <div class="response-header">
+                    <h3>응답</h3>
+                    <div class="loading" id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        <span>Gemini가 생각하고 있습니다...</span>
+                    </div>
+                </div>
+                <div class="response-content" id="responseContent">
+                    <div class="placeholder">
+                        여기에 Gemini의 응답이 표시됩니다.
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by Google Gemini API</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
