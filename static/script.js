@@ -3,8 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const askButton = document.getElementById('askButton');
     const responseContent = document.getElementById('responseContent');
     const loading = document.getElementById('loading');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
 
+    // 테마 초기화
+    initTheme();
+    
+    // 이벤트 리스너
     askButton.addEventListener('click', askQuestion);
+    themeToggle.addEventListener('click', toggleTheme);
     questionInput.addEventListener('keydown', function(e) {
         if (e.ctrlKey && e.key === 'Enter') {
             askQuestion();
@@ -71,6 +78,43 @@ document.addEventListener('DOMContentLoaded', function() {
             responseContent.innerHTML = '<div class="placeholder">응답을 기다리는 중...</div>';
         } else {
             loading.style.display = 'none';
+        }
+    }
+
+    // 테마 관련 함수들
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const defaultTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+        
+        applyTheme(defaultTheme);
+        
+        // 시스템 테마 변경 감지
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
+    
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+    
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // 아이콘 업데이트
+        if (theme === 'dark') {
+            themeIcon.textContent = '☀️';
+            themeToggle.setAttribute('aria-label', '라이트모드로 전환');
+        } else {
+            themeIcon.textContent = '🌙';
+            themeToggle.setAttribute('aria-label', '다크모드로 전환');
         }
     }
 
